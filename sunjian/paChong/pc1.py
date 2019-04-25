@@ -16,7 +16,7 @@ def getImg(html):
     #遍历匹配到的正则信息
     x = 0#定义变量给图片命名
     for imgurl in imglist:
-        print imgurl
+        print (imgurl)
         urllib.urlretrieve(imgurl,'%s.jpg' % x)
         x+=1
 
