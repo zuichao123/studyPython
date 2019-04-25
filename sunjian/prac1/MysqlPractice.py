@@ -2,8 +2,9 @@
 """
     练习MySQL操作
 """
-import MySQLdb
-conn = MySQLdb.connect(host='127.0.0.1', user='root', passwd='root')#创建对象
+import pymysql
+
+conn = pymysql.connect(host='127.0.0.1', user='root', passwd='root')#创建对象
 cursor = conn.cursor()#创建游标
 
 conn.select_db('sunjian')#选择sunjian这个数据库
@@ -20,5 +21,5 @@ sqlInsert2= "insert into user(userName,password)value(%s,%s)"#插入语句
 sqlSelect = "select * from user"#查询语句
 cursor.execute(sqlSelect)#执行查询操作
 print (cursor.fetchone())#输出一个查询结果
-print cursor.fetchmany(13)#查询输出所有
-print cursor.fetchmany(cursor.execute(sqlSelect))#查询输出所有
+print (cursor.fetchmany(13))#查询输出所有
+print (cursor.fetchmany(cursor.execute(sqlSelect)))#查询输出所有
