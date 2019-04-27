@@ -30,4 +30,3 @@ url = "http://www.win4000.com/meinvtag59_1.html"
 html = getHtml(url)#获取该地址的所有源代码
 getImg(html)
 #打印匹配正则的地址；并下载图片
-

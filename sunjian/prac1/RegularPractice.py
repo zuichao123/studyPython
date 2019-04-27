@@ -1,6 +1,82 @@
 #coding:utf-8
 '''
-    正则表达式练习
+正则表达式练习：
+    []里边的字符是或关系。
+    ()表示组，里边的字符是与关系。
+
+    .   匹配换行符\n之外的所有字符
+    \d  数字
+    +   至少出现一次（可以出现多次）
+    *   前面的字符可以出现0次或多次
+    $   结尾
+    ^   开头
+    ?   可有可无（匹配0次或1次）
+    []  括号中的任意字符
+    {3} 字符个数为3个
+    {3,4}   出现3或4个
+    \w  单词字符（不能匹配非单词字符&等）
+    \W  非单词字符（如空格、&、……等）
+    \s  空白字符（回车、制表、\r、\n、\t等）
+    \S  非空白字符
+
+查找：
+    re.findall(pattern,string,flags)
+        pattern:  正则模式
+        string:   字符
+        flags:
+            re.I  忽略pattern大小写
+            re.S  改变pattern中.的行为作用
+        eg:
+            laguage = 'PythonC#\nJavaPHP'
+            result = re.findall('c#.{1}',lanuage,re.I | re.S)
+            print(result)
+
+    re.match()#返回第一个（找到第一个就不往后找了）
+        eg:
+            #match匹配（字符串第一个必须是正则要求的，返回第一个搜索到的）
+            laguage = '2330494'
+            result2 = re.match('\d',laguage)
+            print('match:',result2.span())#span()返回位置
+
+
+    re.search()#返回第一个（找到第一个就不往后找了；详见下边的实例）
+        eg:
+            #search匹配（搜索匹配，返回第一个搜索到的）
+            laguage = '玩儿2330494'
+            result2 = re.search('\d',laguage)
+            print('match:',result2.group())#返回字符
+
+替换：
+    way1、
+        re.sub(pattern,repl,string,count=0,flags=0)
+            pattern:    正则
+            repl:       替换后的字符串
+            string:     原始字符串
+            count:      默认参数0（0表示替换的字符串无限制的替换；1表示只替换第一个匹配正则的字符）
+
+            eg:
+                laguage = 'PythonC#\nJavaPHPC#'
+                result = re.sub('C#','Go',laguage,0)
+                print(result)
+
+            eg2:把函数作为参数传递
+                s = 'ABC123456789WER'
+                    #把字符串s中，大于等于5的数字替换为9；小于5的替换为0
+                def convert(value):
+                    matched = value.group()
+                    if int(matched) >= 5:
+                        return '9'
+                    else:
+                        return '0'
+
+                r = re.sub('\d',convert,s)#convert函数的返回值，替换‘\d’匹配到的s字符串中的数字
+                print(r)
+
+    way2、
+        lanuage.replace(old,new,count)
+            old:    替换前的字符
+            new:    替换后的字符
+            count:  默认参数0（0表示替换的字符串无限制的替换；1表示只替换第一个匹配正则的字符）
 '''
 
 import re
@@ -48,3 +124,55 @@ print (re.sub(rs,'jack','swers s323423s sks sssss'))#根据定义的rs正则替�
 #正则切割
 rr=r'[\+\-\*/]'
 print (re.split(rr,'123+32-234*sdf/sfe'))
+
+#忽略大小写，并且改变换行符的行为
+laguage = 'PythonC#\nJavaPHP'
+result = re.findall('c#.{1}', laguage, re.I | re.S)
+print(result)
+
+#match匹配（字符串第一个必须是正则要求的，返回第一个搜索到的）
+laguage = '2330494'
+result2 = re.match('\d',laguage)
+print('match:',result2.span())#span()返回位置
+
+#search匹配（搜索匹配，返回第一个搜索到的）
+laguage = '玩儿2330494'
+result2 = re.search('\d',laguage)
+print('match:',result2.group())#返回字符
+
+#替换1
+laguage = "qweqweqweeeeerrrr"
+result = laguage.replace("qwe",'yyyy',0)
+print(result)
+#替换2
+laguage = 'PythonC#\nJavaPHPC#'
+result = re.sub('C#', 'Go', laguage, 0)
+print(result)
+#替换3
+    #把函数作为参数传递
+s = 'ABC123456789WER'
+#把字符串s中，大于等于5的数字替换为9；小于5的替换为0
+def convert(value):
+    matched = value.group()
+    if int(matched) >= 5:
+        return '9'
+    else:
+        return '0'
+
+r = re.sub('\d',convert,s)#convert函数的返回值，替换‘\d’匹配到的s字符串中的数字
+print(r)
+
+print('---------------------group()函数详解---------------------------------------------')
+sj = '234234fasdf234234234asd78923faf'
+r = re.match('\d',sj)
+
+#返回字符串的位置
+print(r.span())
+#返回字符串
+    #分组可以有多个
+print(r.group())
+
+sj2 = 'life is short, i use python. I love python'
+r = re.search('life(.*)python(.*)python',sj2)
+print(r.group(0,1,2))#返回每个组的完整
+print(r.groups())#返回每个组的实际
