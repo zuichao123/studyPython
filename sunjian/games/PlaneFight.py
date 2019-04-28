@@ -53,11 +53,13 @@ class HeroPlane(BasePlane):
     #always left
     def hero_move_1(self):
         while True:
+            print('-------------left')
             self.move_left()
             yield None
 
     def hero_move_2(self):
         while True:
+            print('-------------left')
             self.move_left()
             yield None
 
@@ -70,10 +72,13 @@ class HeroPlane(BasePlane):
     def hero_move_3(self):
         while True:
             self.move_right()
+            print('--------------right')
             yield None
 
     def hero_move_4(self):
         while True:
+            self.move_right()
+            print('--------------right')
             yield None
 
     def hero_move_always_right(self):
@@ -159,12 +164,12 @@ def key_control(hero_temp):
             if event.key == pygame.K_a or event.key == pygame.K_LEFT:
                 print('left')
                 #hero_temp.move_left()
-                hero_temp.hero_move_always_left()
+                hero_temp.x -= 5
             # 检测按键是否是d或者right
             elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                 print('right')
                 #hero_temp.move_right()
-                hero_temp.hero_move_always_right()
+                hero_temp.x += 5
             # 检测按键是否是空格键
             elif event.key == pygame.K_SPACE:
                 print('space')
