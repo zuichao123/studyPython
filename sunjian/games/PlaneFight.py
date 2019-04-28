@@ -1,5 +1,6 @@
 #coding:utf-8
 import pygame
+from pygame.locals import *
 import pygame.locals
 import time
 import random
@@ -45,6 +46,40 @@ class HeroPlane(BasePlane):
     #开火
     def fire(self):
         self.bullet_list.append(HeroBullet(self.screen,self.x,self.y))
+
+    '''
+        玩家飞机实现按下左键或右键后一直移动
+    '''
+    #always left
+    def hero_move_1(self):
+        while True:
+            self.move_left()
+            yield None
+
+    def hero_move_2(self):
+        while True:
+            self.move_left()
+            yield None
+
+    def hero_move_always_left(self):
+        while True:
+            self.hero_move_1()
+            self.hero_move_2()
+
+    #always right
+    def hero_move_3(self):
+        while True:
+            self.move_right()
+            yield None
+
+    def hero_move_4(self):
+        while True:
+            yield None
+
+    def hero_move_always_right(self):
+        while True:
+            self.hero_move_3()
+            self.hero_move_4()
 
 #敌人的飞机类
 class EnemyPlane(BasePlane):
@@ -123,11 +158,13 @@ def key_control(hero_temp):
             # 检测按键是否是a或者left
             if event.key == pygame.K_a or event.key == pygame.K_LEFT:
                 print('left')
-                hero_temp.move_left()
+                #hero_temp.move_left()
+                hero_temp.hero_move_always_left()
             # 检测按键是否是d或者right
             elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                 print('right')
-                hero_temp.move_right()
+                #hero_temp.move_right()
+                hero_temp.hero_move_always_right()
             # 检测按键是否是空格键
             elif event.key == pygame.K_SPACE:
                 print('space')
@@ -151,6 +188,7 @@ def main():
         screen.blit(background,(0,0))#将背景图片放到窗口中
         hero.display()#玩家机显示
         enemy.display()#敌机显示
+        enemy.move()#敌机移动
         enemy.fire()#敌机开火
         pygame.display.update()#刷新显示
         key_control(hero)#调用键盘监听方法移动玩家飞机
