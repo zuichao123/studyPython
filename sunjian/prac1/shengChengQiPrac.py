@@ -1,6 +1,7 @@
 #coding:utf-8
 '''
     生成器练习
+        将生成器的方式保存，需要的时候在生成
 '''
 #方式1(使用小括号组的方式)
 a = (x*2 for x in range(10))
@@ -16,5 +17,28 @@ def createNum():
         yield b
         a,b = b,a+b
 
+#创建一个生成器对象
 a = createNum()
 print(next(a))
+'''next(a)和a.__next__()是一样的'''
+print(a.__next__())
+
+#-------------------------------------------------------
+#协程
+def test1():
+    while True:
+        print("------1------")
+        yield None
+
+def test2():
+	while True:
+		print("-----2-----")
+		yield None
+		
+#创建两个对象
+t1 = test1()
+t2 = test2()
+
+while True:
+	t1.__next__()
+	t2.__next__()
