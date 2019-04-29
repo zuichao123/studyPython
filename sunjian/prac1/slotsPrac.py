@@ -9,11 +9,18 @@
 '''
 
 class Person(object):
-    __slots__ = ("name","age")
+    pass
+    # __slots__ = ("name","age")
 
 p = Person()
 
 p.name = "孙健"
 p.age = 30
+p.aa = 23
 
-print(p.name,p.age)
+print(p.name,p.age,p.aa)
+
+'''
+    放开上边注释的__slots__那一行后，
+    执行上边的打印语句会报错，因为：__slots__限制了Person类的属性只能是name和age
+'''
