@@ -1,9 +1,11 @@
 #coding:utf-8
 import pygame
 from pygame.locals import *
-import pygame.locals
+from pygame import *
 import time
 import random
+import sys
+
 '''
    飞机大战
 '''
