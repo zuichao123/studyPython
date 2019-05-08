@@ -1,10 +1,8 @@
 #coding:utf-8
 import pygame
-from pygame.locals import *
 from pygame import *
 import time
 import random
-import sys
 
 '''
    飞机大战
@@ -37,62 +35,81 @@ class HeroPlane(BasePlane):
     def __init__(self,screen_temp):
         BasePlane.__init__(self,screen_temp,210,700,"./feiji/hero1.png")#super().__init__()的方法
 
-    #左移
-    def move_left(self):
-        self.x -= 5
+    # 显示英雄
+    def display(self):
+        # 调用父类方法正常显示飞机
+        BasePlane.display(self)
+        # 遍历所以子弹是否击中敌机
+        for bullet in self.bullet_list:
+            # 判断当前子弹是否击中飞机
+            if bullet.judge_jizhong(self.enemy):
+                self.enemy.bomb(True)
 
-    #右移
-    def move_right(self):
-        self.y += 5
+    # # 左移
+    # def move_left(self):
+    #     print('--left move')
+    #     self.x -= 5
+    #
+    # # 右移
+    # def move_right(self):
+    #     print('--right move')
+    #     self.x += 5
+    #
+    # # 上移
+    # def move_up(self):
+    #     print('--up')
+    #     self.y -= 5
+    #
+    # # 下移
+    # def move_down(self):
+    #     print('--down')
+    #     self.y += 5
 
-    #开火
-    def fire(self):
+    # 开火
+    def fire(self,enemy):
+        self.enemy = enemy
         self.bullet_list.append(HeroBullet(self.screen,self.x,self.y))
 
-    '''
-        玩家飞机实现按下左键或右键后一直移动
-    '''
-    #always left
-    def hero_move_1(self):
-        while True:
-            print('-------------left')
-            self.move_left()
-            yield None
-
-    def hero_move_2(self):
-        while True:
-            print('-------------left')
-            self.move_left()
-            yield None
-
-    def hero_move_always_left(self):
-        while True:
-            self.hero_move_1()
-            self.hero_move_2()
-
-    #always right
-    def hero_move_3(self):
-        while True:
-            self.move_right()
-            print('--------------right')
-            yield None
-
-    def hero_move_4(self):
-        while True:
-            self.move_right()
-            print('--------------right')
-            yield None
-
-    def hero_move_always_right(self):
-        while True:
-            self.hero_move_3()
-            self.hero_move_4()
-
-#敌人的飞机类
+# 敌人的飞机类
 class EnemyPlane(BasePlane):
     def __init__(self,screen_temp):
         BasePlane.__init__(self,screen_temp,0,0,"./feiji/enemy0.png")
-        self.direction = "right"#用来存储飞机默认的显示方向
+        self.direction = "right"# 用来存储飞机默认的显示方向
+
+        # 添加爆炸效果
+        self.bomb_image_list = [] # 存放爆炸图片
+        self.__get_bomb_image() # 加载爆炸图片
+        self.isbomb = False # Fale没有爆炸，True爆炸
+        self.image_num = 0 # 显示过的图片数，变化
+        self.image_index = 0 # 要显示图片的下标，变化
+
+    def bomb(self,isbomb):
+        self.isbomb = isbomb
+
+    # 加载爆炸图片
+    def __get_bomb_image(self):
+        for i in range(1,4):
+            image = "./feiji/enemy0_down"+str(i)+".png"
+            self.bomb_image_list.append(pygame.image.load(image))
+        #总数有多少张
+        self.image_length = len(self.bomb_image_list)
+
+    def display(self):
+        # 判断是否要爆炸
+        if self.isbomb:
+            bomb_image = self.bomb_image_list[self.image_index] # 获取爆炸图片第image_index张
+            self.screen.blit(bomb_image, (self.x, self.y)) # 将爆炸图片填充到界面中的飞机坐标处
+            self.image_num += 1 # 已显示图片张数
+            if self.image_num == (self.image_length + 1): # 判断，如果已显示的爆炸图片张数等于列表中的张数
+                self.image_num = 0 # 重置已显示的爆炸图片数量
+                self.image_index += 1 #爆炸图片索引加1
+
+                if self.image_index > (self.image_length - 1): # 如果，爆炸图片索引大于图片张数-1
+                    self.image_index = 4 # 设置索引
+                    time.sleep(2)
+                    exit()  # 炸完了咋样？可以
+        else:
+            BasePlane.display(self)
 
     #敌机移动方法
     def move(self):
@@ -122,11 +139,20 @@ class BaseBullet(Base):
 #玩家飞机的子弹
 class HeroBullet(BaseBullet):
     def __init__(self,screen_temp,x,y):
-        BaseBullet.__init__(self,screen_temp,x+40,y-20,"./feiji/bullet.png")
+        BaseBullet.__init__(self,screen_temp,x+40,y-10,"./feiji/bullet.png")
+
+    # 判断是否击中敌机
+    def judge_jizhong(self, enemy):
+        if self.x > enemy.x and self.x < enemy.x + 56:
+            if self.y > enemy.y and self.y < enemy.y + 31:
+                print("击中敌机了..")
+                return True
+        else:
+            return False
 
     #玩家子弹移动方法
     def move(self):
-        self.y -= 20
+        self.y -= 10 # speed
 
     #判断玩家子弹是否出界的方法
     def judge(self):
@@ -142,7 +168,7 @@ class EnemyBullet(BaseBullet):
 
     #敌机飞机子弹的移动方法
     def move(self):
-        self.y += 5
+        self.y += 10 # speed
 
     #敌机飞机的判断出界的方法
     def judge(self):
@@ -151,55 +177,81 @@ class EnemyBullet(BaseBullet):
         else:
             return False
 
-#获取键盘事件类
-def key_control(hero_temp):
-    # 获取事件，比如按键等
-    for event in pygame.event.get():
+class PlaneGame(object):
+    # 键盘控制
+    def key_control(self):
+        # 监听键盘的代码
+        for event in pygame.event.get():
+            # 判断是否点击了退出按钮
+            if event.type == QUIT:
+                # 退出
+                print("exit")
+                exit()
+                # 判断是否按下了键
+            if event.type == KEYDOWN:
+                # 检查按钮是否是a或者left
+                if event.key == K_LEFT or event.key == K_a:
+                    print("left")
+                    self.hero.x -= 5
+                    # 检查按钮是否是d或者right
+                elif event.key == K_RIGHT or event.key == K_d:
+                    # 右方向键
+                    print("right")
+                    self.hero.x += 5
+                elif event.key == K_UP or event.key == K_w:
+                    # 上方向键
+                    print("up")
+                    self.hero.y -= 5
+                elif event.key == K_DOWN or event.key == K_s:
+                    # 下方向键
+                    print("down")
+                    self.hero.y += 5
+                elif event.key == K_SPACE:
+                    # 上方向键
+                    print("space-空格建")
+                    self.hero.fire(self.enemy)
+                elif event.key == K_b:
+                    # 按b键了
+                    print("爆炸")
+                    self.enemy.isbomb = True
 
-        # 判断是否是点击了退出按钮
-        if event.type == pygame.QUIT:
-            print("exit")
-            exit()
-        # 判断是否是按下了键
-        elif event.type == pygame.KEYDOWN:
-            # 检测按键是否是a或者left
-            if event.key == pygame.K_a or event.key == pygame.K_LEFT:
-                print('left')
-                #hero_temp.move_left()
-                hero_temp.x -= 5
-            # 检测按键是否是d或者right
-            elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
-                print('right')
-                #hero_temp.move_right()
-                hero_temp.x += 5
-            # 检测按键是否是空格键
-            elif event.key == pygame.K_SPACE:
-                print('space')
-                hero_temp.fire()
+    def main(self):
 
-#主函数
-def main():
-    #1.创建一个窗口，用来显示内容
-    screen = pygame.display.set_mode((480,852),0,32)
+        pygame.init()
+        # 设置键盘重复
+        pygame.key.set_repeat(True)
 
-    #2.创建一个背景图片
-    background = pygame.image.load("./feiji/background.png")
+        # 1.创建一个窗口，用来显示内容
+        screen = pygame.display.set_mode((480, 852), 0, 32)
 
-    #3.创建一个飞机对象
-    hero = HeroPlane(screen)
+        # 2.创建一个背景图片
+        background = pygame.image.load("./feiji/background.png")
 
-    #4.创建一个敌机
-    enemy = EnemyPlane(screen)
+        # 3.创建一个飞机对象
+        self.hero = HeroPlane(screen)
 
-    while True:
-        screen.blit(background,(0,0))#将背景图片放到窗口中
-        hero.display()#玩家机显示
-        enemy.display()#敌机显示
-        enemy.move()#敌机移动
-        enemy.fire()#敌机开火
-        pygame.display.update()#刷新显示
-        key_control(hero)#调用键盘监听方法移动玩家飞机
-        time.sleep(0.01)
+        # 4.创建一个敌机
+        self.enemy = EnemyPlane(screen)
+
+        # 播放背景音乐
+        # 初始化背景音乐
+        # pygame.mixer.init()
+        # 设置音量
+        # pygame.mixer.music.set_volume(100)
+        # pygame.mixer.music.load("./bgmusic/bgm_zhandou1.mp3")
+        # 循环播放多少次
+        # pygame.mixer.music.play(1)
+
+        while True:
+            screen.blit(background, (0, 0))  # 将背景图片放到窗口中
+            self.hero.display()  # 玩家机显示
+            self.enemy.display()  # 敌机显示
+            self.enemy.move()  # 敌机移动
+            self.enemy.fire()  # 敌机开火
+            pygame.display.update()  # 刷新显示
+            self.key_control()  # 调用键盘监听方法移动玩家飞机
+            time.sleep(0.01)
+
 
 if __name__ == "__main__":
-    main()
+    PlaneGame().main()

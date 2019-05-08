@@ -27,7 +27,7 @@
                 0代表只检查第一代的对象；
                 1代表检查1/2代的对象；
                 2代表检查1/2/3代的对象；
-            3、gc.get_theshold()获取的gc模块中自动执行垃圾回收的频率；
+            3、gc.get_threshold()获取的gc模块中自动执行垃圾回收的频率；
             4、gc.set_threshold(threshold0[,threshold 1],threshold 2)设置自动执行垃圾回收的频率；
             5、gc.get_count()获取当前自动执行垃圾回收的计数器，返回一个长度为3的列表
 
@@ -55,14 +55,14 @@ def f2():
 
 #gc.disable() # 关掉默认的垃圾回收机制
 #gc.collect() # 显式执行垃圾回收
-f2()
+#f2()
 
 # ---------------------------------------
 y = gc.get_count()
 x = gc.get_threshold()
 
-print(y)
-print(x)
+print('当前自动执行垃圾回收的计数器：',y)
+print('当前自动执行垃圾回收的频率：',x)
 
 # 查看一个对象的引用个数
 a = 'hello world!'
