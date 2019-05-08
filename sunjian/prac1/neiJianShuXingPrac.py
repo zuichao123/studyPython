@@ -16,7 +16,30 @@
 
     访问属性时：会先调用__getattribute__这个内建属性
 
+    注意：在__getattribute__这个方法中禁止再使用self.xxx，因为有可能会造成死循环
 '''
 import sys
 a = "hello world"
 print(a)
+
+class Sjian(object):
+    def __init__(self,subject1):
+        self.subject1 = subject1
+        self.subject2 = 'cpp'
+
+    # 属性访问拦截器，打log
+    def __getattribute__(self, item):
+        if item == 'subject1':
+            print('log subject1')
+            return 'redirect python'
+        else:
+            return object.__getattribute__(self,item) # 否则，调用父类的去处理
+
+    def show(self):
+        print('0707 this is 01')
+
+sj = Sjian('subject1')
+
+print(sj.subject1)
+print(sj.subject2)
+print(sj.show())
