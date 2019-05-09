@@ -19,7 +19,7 @@ import re
 class Spider():
     '''定义爬虫类'''
     __url = "https://www.huya.com/l"#定义一个私有的变量，存放爬取的URL地址
-    root_pattern = '<li class="game-live-item"([\s\S]*?)</li>'#爬取的内容HTML正则
+    root_pattern = '<li class="game-live-items"([\s\S]*?)</li>'#爬取的内容HTML正则
     name_pattern = '<i class="nick" ([\s\S]*?)</i>'#爬取的具体匹配正则1（主播名字）
     number_pattern = '<i class="js-num">([\s\S]*?)</i>'#爬取的具体匹配正则2（粉丝数量）
 

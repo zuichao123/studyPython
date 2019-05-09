@@ -44,7 +44,7 @@ ROBOTSTXT_OBEY = True
 #   'Accept-Language': 'en',
 #}
 
-# Enable or disable spider middlewares
+# Enable or disable spiders middlewares
 # See https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
 #    'ArticleSpider.middlewares.ArticlespiderSpiderMiddleware': 543,
@@ -62,7 +62,7 @@ ROBOTSTXT_OBEY = True
 #    'scrapy.extensions.telnet.TelnetConsole': None,
 #}
 
-# Configure item pipelines
+# Configure items pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 #ITEM_PIPELINES = {
 #    'ArticleSpider.pipelines.ArticlespiderPipeline': 300,

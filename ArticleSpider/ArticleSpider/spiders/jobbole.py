@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 '''
 C:\Software\pycharm\workspace\sunjian\paChong>scrapy genspider jobbole blog.jobbole.com
-Created spider 'jobbole' using template 'basic'
+Created spiders 'jobbole' using template 'basic'
 
 C:\Software\pycharm\workspace>scrapy startproject ArticleSpider
 '''
