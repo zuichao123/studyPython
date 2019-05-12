@@ -6,30 +6,28 @@
     C:\Software\pycharm\workspace>scrapy startproject ArticleSpider
 '''
 import scrapy
+import re
+from scrapy.http import request
+from urllib import parse
 
 class JobboleSpider(scrapy.Spider):
     name = 'jobbole'
 
-    # allowed_domains = ['blog.jobbole.com']
-    # start_urls = ['http://group.jobbole.com/33695/#comm-93459']
-    # def parse(self, response):
-    #     for i in range(1,20):
-    #         re_selector = response.xpath("//li[@id='comment-93459']//div[contains(@class,'cmnt-body')]//p["+str(i)+"]/text()")
-    #         re_contents = re_selector.extract()
-    #         if (len(re_contents) > 0):
-    #             print(re_contents[0])
-    #         i+=1
-    #     pass
-
-
     allowed_domains = ['blog.jobbole.com']
-    start_urls = ['http://python.jobbole.com/89290/']
-    def parse(self,response):
-        re_selectors = response.xpath("//div[@class='entry']//p")
-        for i in range(1,len(re_selectors)):
-            re_selector = response.xpath("//div[@class='entry']//p["+str(i)+"]/text()")
-            if(len(re_selector) > 0):
-                content = re_selector.extract()[0]
-                content = content.replace("。",'\n')
-                print(content)
+    start_urls = ['http://book.zongheng.com/showchapter/697313.html']
+
+    def parse(self, response):
+        post_urls = response.xpath("//ul[contains(@class,'chapter-list')]//li/a").extract()
+        re_part = 'href="([\s\S]*\.html)"'
+        for post_url in post_urls:
+            post_url = re.findall(re_part,post_url)
+            yield scrapy.Request(url=post_url[0],callback=self.parse_detail,dont_filter=True)
+
+    def parse_detail(self,response):
+        title = response.xpath("//div[@class='title_txtbox']/text()")
+        print('-------------------',title.extract())
+        contents = response.xpath("//div[@class='content']//p/text()")
+        for content in contents:
+            print(content.extract())
         pass
+
