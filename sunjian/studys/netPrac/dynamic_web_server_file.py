@@ -109,7 +109,7 @@ class HTTPServer(object):
 
 
 def main():
-    sys.path.insert(1, WSGI_PYTHON_DIR)
+    sys.path.insert(1, WSGI_PYTHON_DIR) # 将动态文件路径添加到系统path中
     http_server = HTTPServer()
     # http_server.set_port
     http_server.bind(8000)
