@@ -1,4 +1,12 @@
 # coding:utf-8
+'''
+wsgi协议的动态web服务器
+
+1、接收客户端请求
+    accept()
+    handle_client()
+
+'''
 
 import socket
 import re
@@ -13,7 +21,7 @@ WSGI_PYTHON_DIR = "./wsgipython"
 
 
 class HTTPServer(object):
-    """"""
+    """服务类"""
     def __init__(self):
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -29,17 +37,18 @@ class HTTPServer(object):
             client_socket.close()
 
     def start_response(self, status, headers):
+        '''获取响应头 '''
         """
          status = "200 OK"
          headers = [
             ("Content-Type", "text/plain")
          ]
-        """
+       """
         response_headers = "HTTP/1.1 " + status + "\r\n"
         for header in headers:
             response_headers += "%s: %s\r\n" % header
 
-        self.response_headers = response_headers
+        self.response_headers = response_headers # 响应头
 
     def handle_client(self, client_socket):
         """处理客户端请求"""
@@ -56,14 +65,14 @@ class HTTPServer(object):
         # 提取用户请求的文件名
         print("*" * 10)
         print(request_start_line.decode("utf-8"))
-        file_name = re.match(r"\w+ +(/[^ ]*) ", request_start_line.decode("utf-8")).group(1)
-        method = re.match(r"(\w+) +/[^ ]* ", request_start_line.decode("utf-8")).group(1)
+        file_name = re.match(r"\w+ +(/[^ ]*) ", request_start_line.decode("utf-8")).group(1) # 请求文件名
+        method = re.match(r"(\w+) +/[^ ]* ", request_start_line.decode("utf-8")).group(1) # 请求方法名
 
         # "/ctime.py"
         # "/sayhello.py"
         if file_name.endswith(".py"):
             try:
-                m = __import__(file_name[1:-3]) # 切片获取访问URL中的文件名称
+                m = __import__(file_name[1:-3]) # 动态导入-切片获取访问URL中的文件名称
             except Exception:
                 self.response_headers = "HTTP/1.1 404 Not Found\r\n"
                 response_body = "not found"
@@ -72,9 +81,9 @@ class HTTPServer(object):
                     "PATH_INFO": file_name,
                     "METHOD": method
                 }
-                response_body = m.application(env, self.start_response)
+                response_body = m.application(env, self.start_response) # 响应体，接收的是application的返回值
 
-            response = self.response_headers + "\r\n" + response_body
+            response = self.response_headers + "\r\n" + response_body # 完整报文
         else:
             if "/" == file_name:
                 file_name = "/index.html"
@@ -95,7 +104,7 @@ class HTTPServer(object):
                 response_headers = "Server: My server\r\n"
                 response_body = file_data.decode("utf-8")
 
-            response = response_start_line + response_headers + "\r\n" + response_body
+            response = response_start_line + response_headers + "\r\n" + response_body # 完整报文
             print("response data:", response)
 
         # 向客户端返回响应数据
