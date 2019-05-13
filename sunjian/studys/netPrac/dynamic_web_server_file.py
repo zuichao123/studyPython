@@ -31,10 +31,9 @@ class HTTPServer(object):
     def start_response(self, status, headers):
         """
          status = "200 OK"
-    headers = [
-        ("Content-Type", "text/plain")
-    ]
-    star
+         headers = [
+            ("Content-Type", "text/plain")
+         ]
         """
         response_headers = "HTTP/1.1 " + status + "\r\n"
         for header in headers:
@@ -64,7 +63,7 @@ class HTTPServer(object):
         # "/sayhello.py"
         if file_name.endswith(".py"):
             try:
-                m = __import__(file_name[1:-3])
+                m = __import__(file_name[1:-3]) # 切片获取访问URL中的文件名称
             except Exception:
                 self.response_headers = "HTTP/1.1 404 Not Found\r\n"
                 response_body = "not found"
