@@ -19,7 +19,7 @@ class Application(object):
         path = env.get("PATH_INFO", "/")
         # /static/index.html
         if path.startswith("/static"):
-            # 要访问静态文件
+            # 要访问的静态文件
             file_name = path[7:]
             # 打开文件，读取内容
             try:
@@ -66,7 +66,7 @@ def say_hello(env, start_response):
         ("Content-Type", "text/plain")
     ]
     start_response(status, headers)
-    return "hello itcast"
+    return "hello sunjian"
 
 def say_haha(env, start_response):
     status = "200 OK"
