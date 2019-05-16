@@ -13,7 +13,7 @@
     ^   开头
     \b  匹配一个单词的边界
     \B  匹配非单词边界
-    ?   前一个字符可有可无（匹配0次或1次）
+    ?   前一个字符可有可无（匹配0次或1次）【非贪婪操作符】
     []  括号中的任意字符
     {3} 前一个字符字符个数为3个
     {3,}    前一个字符个数至少为3个
@@ -201,3 +201,10 @@ r = re.search('life(.*)python(.*)python',sj2)
 print(r.group(0,1,2)) # 返回每个组的完整
 print(r.groups()) # 返回每个组的实际
 print(r.group()) # 返回实际匹配的所有
+
+print("----"*16,'经典例子')
+s = "http://www.baidu.com/messagfin.asp?id=77"
+'''将.com/后边的字符替换为空'''
+# 思路：使用sub函数；先将所有的匹配出来；将较容易的部分先匹配出来；使用lambda表达式将较容易的部分返回
+result = re.sub(r"(http://.+?/).*", lambda x:x.group(1), s)
+print(result)
