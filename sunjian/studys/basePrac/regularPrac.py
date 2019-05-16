@@ -85,7 +85,7 @@
 
             eg2:把函数作为参数传递
                 s = 'ABC123456789WER'
-                    #把字符串s中，大于等于5的数字替换为9；小于5的替换为0
+                    # 把字符串s中，大于等于5的数字替换为9；小于5的替换为0
                 def convert(value):
                     matched = value.group()
                     if int(matched) >= 5:
