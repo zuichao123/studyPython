@@ -24,14 +24,27 @@
     \S  非空白字符
 
     (ab)  将括号中字符作为一个分组
-    \num    引用分组num匹配到的字符串
+    \num    引用分组num匹配到的字符串(就是说，引用当前正则中的前边的分组结果。如：r"(.*)sf(.+)\2asdf\1" --> \2引用第二个括号)
     (?p<name>)  分组起别名
     (?P=name)   引用别名为name分组匹配到的字符串
 
+    group() 获取匹配成后的分组【参数：0表示所有 1表示第一组 2表示第二组 ...】
+
     注意：字符串前边加上r表示原始字符串（如：r"\n\w\swoshiyuanshide"）可以忽略转义
 
+    ex:
+        email:
+            re_p = r"(\w+)@(163|126|gmail|qq|irisking)\.(com|cn|net)$"
+            str = "sunjian@irisking.com"
+            result = re.match(re_p, str)
+            result.group() # sunjian@irisking.com
+            result.group(1) # sunjian
+            result.group(2) # irisking
+            result.group(3) # com
+
+
 查找：
-    re.findall(pattern,string,flags)
+    re.findall(pattern,string,flags) # 返回所有匹配的
         pattern:  正则模式
         string:   字符
         flags:
@@ -42,20 +55,20 @@
             result = re.findall('c#.{1}',lanuage,re.I | re.S)
             print(result)
 
-    re.match()#返回第一个（找到第一个就不往后找了）
+    re.match() # 返回第一个（找到第一个就不往后找了）
         eg:
-            #match匹配（字符串第一个必须是正则要求的，返回第一个搜索到的）
+            # match匹配（字符串第一个必须是正则要求的，返回第一个搜索到的）
             laguage = '2330494'
             result2 = re.match('\d',laguage)
-            print('match:',result2.span())#span()返回位置
+            print('match:',result2.span()) #span() 返回位置
 
 
-    re.search()#返回第一个（找到第一个就不往后找了；详见下边的实例）
+    re.search() # 返回第一个（找到第一个就不往后找了；详见下边的实例）
         eg:
-            #search匹配（搜索匹配，返回第一个搜索到的）
+            # search匹配（搜索匹配，返回第一个搜索到的）
             laguage = '玩儿2330494'
             result2 = re.search('\d',laguage)
-            print('match:',result2.group())#返回字符
+            print('match:',result2.group()) # 返回字符
 
 替换：
     way1、
@@ -149,20 +162,20 @@ print('match:',result2.span())#span()返回位置
 #search匹配（搜索匹配，返回第一个搜索到的）
 laguage = '玩儿2330494'
 result2 = re.search('\d',laguage)
-print('match:',result2.group())#返回字符
+print('match:',result2.group()) # 返回字符
 
-#替换1
+# 替换1
 laguage = "qweqweqweeeeerrrr"
 result = laguage.replace("qwe",'yyyy',0)
 print(result)
-#替换2
+# 替换2
 laguage = 'PythonC#\nJavaPHPC#'
 result = re.sub('C#', 'Go', laguage, 0)
 print(result)
-#替换3
-    #把函数作为参数传递
+# 替换3
+    # 把函数作为参数传递
 s = 'ABC123456789WER'
-#把字符串s中，大于等于5的数字替换为9；小于5的替换为0
+# 把字符串s中，大于等于5的数字替换为9；小于5的替换为0
 def convert(value):
     matched = value.group()
     if int(matched) >= 5:
@@ -170,20 +183,21 @@ def convert(value):
     else:
         return '0'
 
-r = re.sub('\d',convert,s)#convert函数的返回值，替换‘\d’匹配到的s字符串中的数字
+r = re.sub('\d',convert,s) # convert函数的返回值，替换‘\d’匹配到的s字符串中的数字
 print(r)
 
 print('---------------------group()函数详解---------------------------------------------')
 sj = '234234fasdf234234234asd78923faf'
 r = re.match('\d',sj)
 
-#返回字符串的位置
+# 返回字符串的位置
 print(r.span())
-#返回字符串
-    #分组可以有多个
+# 返回字符串
+    # 分组可以有多个
 print(r.group())
 
 sj2 = 'life is short, i use python. I love python'
 r = re.search('life(.*)python(.*)python',sj2)
-print(r.group(0,1,2))#返回每个组的完整
-print(r.groups())#返回每个组的实际
+print(r.group(0,1,2)) # 返回每个组的完整
+print(r.groups()) # 返回每个组的实际
+print(r.group()) # 返回实际匹配的所有
