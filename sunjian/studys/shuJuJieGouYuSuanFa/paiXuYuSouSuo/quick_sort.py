@@ -2,6 +2,18 @@
 """
     快速排序
         不稳定
+
+    注意：这个必须会
+
+    常见排序算法效率比较
+        排序方法        平均情况            最后情况        最坏情况        辅助空间        稳定性
+        冒泡排序        O(n2)               O(n)            O(n2)           O(1)            稳定
+        选择排序        O(n2)               O(n2)           O(n2)           O(1)            不稳定
+        插入排序        O(n2)               O(n)            O(n2)           O(1)            稳定
+        希尔排序        O(n long n)~ O(n2)  O(n1.3)         O(n2)           O(1)            不稳定
+        堆排序          O(n log n)          O(n log n)      O(n log n)      O(1)            不稳定
+        归并排序        O(n log n)          O(n log n)      O(n log n)      O(n)            稳定
+        快速排序        O(n log n)          O(n log n)      O(n2)           O(log n)~ O(n)  不稳定
 """
 
 def quick_sort(alist, first, last):
