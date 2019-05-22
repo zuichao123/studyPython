@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet"  href="../css/layui.css">
+</head>
+<body>
+
+    <script src="../layui.js"></script>
+    <script>  
+    layui.config({
+        base:"../"
+    }).extend({
+        exports:"exports"
+    })
+
+
+    layui.use(["layer","jquery","exports"],function(){
+        var $ = layui.jquery,
+        layer = layui.layer,
+        exports = layui.exports;
+        // exports.key1()
+    
+        layer.open({
+            type:2,
+            content:["./layerchlid.html"],
+            area:["500px","500px"],
+            btn:["确定","取消"],
+            btn1:function(index,layero){
+                $("#layui-layer-iframe1").contents().find("#inpt").val("获取父页面传过来的值")
+                return  false
+            }   
+        })
+    })
+    
+    </script>
+</body>
+</html>

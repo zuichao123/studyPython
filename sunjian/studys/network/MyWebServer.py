@@ -1,11 +1,13 @@
 # coding:utf-8
-
+"""
+    我的web服务
+        运行此文件需要在Edit Configurations中的Parameters处配置MyWebFramework:app
+"""
 import socket
 import re
 import sys
 
 from multiprocessing import Process
-from MyWebFramework import Application
 
 # 设置静态文件根目录
 HTML_ROOT_DIR = "./html"

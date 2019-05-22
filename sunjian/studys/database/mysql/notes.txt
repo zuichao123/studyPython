@@ -1,0 +1,164 @@
+数据库命令：
+创建create database 数据库名 charset=utf8;
+删除drop database 数据库名;
+查看所有数据库：show databases;
+使用数据库：use 数据库名;
+----------------------------------------
+表命令：
+create table 表名(列...);
+唯一标识的要求：id
+	类型：int unsigned
+	约束1：not null
+	约束2：primary key
+	约束3：auto_increment
+列的格式：列的名称 类型 约束
+create table stu(
+    -> id int not null primary key auto_increment,
+    -> name varchar(10) not null,
+    -> gender bit default 1,
+    -> birthday datetime,
+    -> isDelete bit default 0,
+    -> );
+查看表show tables;
+查看表结构desc 表名;
+修改表：alter table 表名 add|modify|drop 列名 类型 约束;
+alter table stu modify column isDelete bit not null default 0;
+删除表：drop table 表名;
+----------------------------------------
+数据命令：
+添加数据：insert into 表名(列名) values(值),(值)...;
+修改数据：update 表名 set 列1=值1,... where ...;
+删除数据：delete from 表名 where ...;
+逻辑删除：update ....
+备份：mysqldump >
+恢复：mysql <
+
+
+数据库、表、字段、行
+
+问：查询姓黄或洪的男生
+分析：数据从哪来，哪个表stu
+条件：姓黄或洪name or
+	and
+	男生gender
+答：select * from stu where gender=1 and (name like '黄%' or name like '洪%')
+
+distinct
+条件：where 字段 运算符 常量
+分组聚合：group by ... having ...
+
+
+关系的存储方案
+1：1-》存储在任何一个表中
+1：n-》存储在n的表中，新增一个字段
+m：n-》新建表
+
+成绩表：id,成绩，学生，科目
+关系，第三范式，外键
+
+问题：两个表之间有关系吗？分析的依据是当前系统的业务，够用就行
+	怎么存储这个关系？参照“关系的存储方案”
+	关系字段的类型是什么？根据第三范式，引用主键，所以主键的类型，就是这个字段的类型
+	关系字段的数据有效性怎么保证？外键
+
+create table sco(
+id int not null auto_increment primary key,
+stu_id int,
+sub_id int,
+score int(3),
+foreign key(stu_id) references stu(id),
+foreign key(sub_id) references sub(id)
+);
+
+insert into sco values(0,1,1,100);
+
+
+select distinct * from 表名
+where ...
+group by ...
+having ...
+order by ...
+limit ...
+
+关系的问题
+（1）是什么样的对应关系
+（2）存储关系的字段，使用什么类型
+（3）存入数据时错了怎么办？
+
+查：学生姓名及所在的班级名称
+分析：stu,class
+stu.class_id=class.id
+答：select * from stu inner join class on stu.class_id=class.id
+
+
+查询学生的姓名、平均分
+分析：姓名->stu
+	平均分->先sco查分数，再聚合avg
+需要从两张表中获取数据，所以需要连接
+连接的条件：stu.id=sco.stu_id
+实现一：获取所有的原始数据
+select name,score from stu inner join sco on stu.id=sco.stu_id
+继续分析：对每个学生求平均分
+让姓名相同的信息，分成一组
+select name,avg(score) from stu inner join sco on stu.id=sco.stu_id
+group by name
+
+查询男生的姓名、总分
+分析：姓名->stu
+	男生->stu
+	总分->sum(),分数->sco
+连接条件：stu.id=sco.stu_id
+实现一：select * from sco inner join stu on stu.id=sco.stu_id
+	where gender=1
+实现二：分组
+	。。。 group by name
+
+查询科目的名称、平均分
+sub.title->sub
+avg(),score->sco
+sub.id=sco.sub_id
+
+
+查询学生姓名、科目名称、分数
+stu
+sub
+sco
+
+查询省的名称为“山西省”的所有城市
+select * from areas where title='山西省'
+
+查询‘广州市’的所有区县
+	#select * from areas where title='淄博市'  #370300
+	#select * from areas where pid='370300'  #370301
+	#select * from areas where pid='370301'
+
+	#areas as shi where shi.title='广州市'
+	#areas as qu on qu.pid=shi.id
+	#areas as qu1 on qu1.pid=qu.id
+
+	select qu.*,qu1.*
+	from areas as shi
+	inner join areas as qu on qu.pid=shi.id
+	left join areas as qu1 on qu1.pid=qu.id
+	where shi.title='淄博市'
+
+子查询
+#查询广州市、淄博市的所有区
+#select id from areas where title='广州市' or title='淄博市'
+select * from areas where pid in(select id from areas where title='广州市' or title='淄博市')
+
+
+源码安装：python setup.py install
+
+
+MySQLdb
+Connection
+Cursor
+
+查询：fetchone(),fetchall()
+封装：将数据库操作的代码封装到一个类中，helper
+用户的登录注册成功
+hashlib
+sha1()
+update()
+hexdigest()
