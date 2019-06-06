@@ -1,4 +1,7 @@
 # coding:utf-8
+"""
+    爬取百度贴吧的HTML内容
+"""
 from urllib import request,parse
 import urllib
 import os

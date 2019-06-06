@@ -44,7 +44,7 @@
 
 
 查找：
-    re.findall(pattern,string,flags) # 返回所有匹配的
+    re.findall(pattern,string,flags) # 返回所有匹配的，返回列表
         pattern:  正则模式
         string:   字符
         flags:
@@ -55,7 +55,7 @@
             result = re.findall('c#.{1}',lanuage,re.I | re.S)
             print(result)
 
-    re.match() # 返回第一个（找到第一个就不往后找了）
+    re.match() # 返回第一个（找到第一个就不往后找了；从起始位置开始往后查找）
         eg:
             # match匹配（字符串第一个必须是正则要求的，返回第一个搜索到的）
             laguage = '2330494'
@@ -63,7 +63,7 @@
             print('match:',result2.span()) #span() 返回位置
 
 
-    re.search() # 返回第一个（找到第一个就不往后找了；详见下边的实例）
+    re.search() # 返回第一个（找到第一个就不往后找了；从任何位置开始往后查找；详见下边的实例）
         eg:
             # search匹配（搜索匹配，返回第一个搜索到的）
             laguage = '玩儿2330494'
