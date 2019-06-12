@@ -5,6 +5,7 @@
       <option name="ignoredIdentifiers">
         <list>
           <option value="redis" />
+          <option value="spiders.mySpider.mySpider.spiders.itcastspider.*" />
         </list>
       </option>
     </inspection_tool>
