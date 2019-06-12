@@ -6,7 +6,7 @@
     C:\Software\pycharm\workspace>scrapy startproject ArticleSpider
 '''
 import scrapy
-import re
+import re,os
 from scrapy.http import request
 from urllib import parse
 
@@ -25,9 +25,15 @@ class JobboleSpider(scrapy.Spider):
 
     def parse_detail(self,response):
         title = response.xpath("//div[@class='title_txtbox']/text()")
+        with open(self.currentDesktopPath()+"\\article.txt","a+") as f:
+            f.write(title.extract()[0]+"\n")
         print('-------------------',title.extract())
         contents = response.xpath("//div[@class='content']//p/text()")
         for content in contents:
+            with open(self.currentDesktopPath()+"\\article.txt","a+") as f:
+                f.write(content.extract()+"\n\n")
             print(content.extract())
-        pass
 
+    def currentDesktopPath(self):
+        # 作用：获取当前桌面路径
+        return os.path.join(os.path.expanduser("~"), 'Desktop')
