@@ -19,18 +19,20 @@
         publishTime = scrapy.Field()
 
 3、在spiders目录下创建爬虫脚本文件，编写爬虫代码
-    E:\Python\workspace\studyPython\spiders\scrapyPracs\douyuSpider\douyuSpider\spiders>scrapy genspider douyumeinv "capi.douyucdn.cn"
+    E:\Python\workspace\studyPython\spiders\scrapyPracs\douyuSpider\douyuSpider\spiders>
+    scrapy genspider douyumeinv "capi.douyucdn.cn"
 
 4、在pipelines.py文件中创建管道类
     import json
 
-    class TencentPipeline(object):
+    class DongguanspiderPipeline(object):
         def __init__(self):
-            self.filename = open("tencent.json", "w")
+            self.filename = open("dongguan.json", "w", encoding='utf-8')
 
         def process_item(self, item, spider):
-            text = json.dumps(dict(item), ensure_ascii = False) + ",\n"
-            self.filename.write(text.encode("utf-8"))
+            text = json.dumps(dict(item), ensure_ascii = False).encode('utf-8')
+            text = text.decode(encoding='utf-8')
+            self.filename.write(text + ',\n')
             return item
 
         def close_spider(self, spider):

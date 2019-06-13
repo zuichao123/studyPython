@@ -93,7 +93,7 @@
                     else:
                         return '0'
 
-                r = re.sub('\d',convert,s)#convert函数的返回值，替换‘\d’匹配到的s字符串中的数字
+                r = re.sub('\d',convert,s)#convert函数的返回值，替换‘\d’匹配到的s字符串中的数字(换句话说：就是将s字符串中的数字替换为convert函数的返回值)
                 print(r)
 
     way2、

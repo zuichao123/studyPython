@@ -2,7 +2,7 @@
 import json
 
 import scrapy
-from spiders.scrapyPracs.douyuSpider.douyuSpider.items import DouyuspiderItem
+from spiders.scrapy.spiderPrac.douyuSpider.douyuSpider.items import DouyuspiderItem
 
 class DouyumeinvSpider(scrapy.Spider):
     name = 'douyumeinv'

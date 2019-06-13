@@ -5,6 +5,9 @@
 import scrapy
 
 # 创建一个爬虫类
+from spiders.scrapy.spiderPrac.mySpider.mySpider.items import ItcastItem
+
+
 class ItcastSpider(scrapy.Spider):
     # 爬虫名
     name = "itcast"
@@ -37,7 +40,7 @@ class ItcastSpider(scrapy.Spider):
         for each in teacher_list:
 
             # Item对象用来保存数据的
-            # item = ItcastItem()
+            item = ItcastItem()
             # name, extract() 将匹配出来的结果转换为Unicode字符串
             # 不加extract() 结果为xpath匹配对象
             name = each.xpath('./h3/text()').extract()[0]

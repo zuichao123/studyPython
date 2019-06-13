@@ -1,0 +1,65 @@
+使用scrapy框架步骤：
+1、创建scrapy项目
+    scrapy startproject projectName
+
+2、在items.py中创建类，并定义属性
+    class TencentItem(scrapy.Item):
+        # define the fields for your item here like:
+        # 职位名
+        positionname = scrapy.Field()
+        # 详情连接
+        positionlink = scrapy.Field()
+        # 职位类别
+        positionType = scrapy.Field()
+        # 招聘人数
+        peopleNum = scrapy.Field()
+        # 工作地点
+        workLocation = scrapy.Field()
+        # 发布时间
+        publishTime = scrapy.Field()
+
+3、在spiders目录下创建爬虫脚本文件，编写爬虫代码
+    E:\Python\workspace\studyPython\spiders\scrapyPracs\douyuSpider\douyuSpider\spiders>
+    scrapy genspider -t crawl sun 'wz.sun0790.com'
+
+4、在pipelines.py文件中创建管道类
+    import json
+
+    class DongguanspiderPipeline(object):
+        def __init__(self):
+            self.filename = open("dongguan.json", "w", encoding='utf-8')
+
+        def process_item(self, item, spider):
+            text = json.dumps(dict(item), ensure_ascii = False).encode('utf-8')
+            text = text.decode(encoding='utf-8')
+            self.filename.write(text + ',\n')
+            return item
+
+        def close_spider(self, spider):
+            self.filename.close()
+
+5、在settings.py文件中设置
+    DEFAULT_REQUEST_HEADERS = {
+        "User-Agent" : "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0;",
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    }
+
+    ITEM_PIPELINES = {
+        'tencent.pipelines.TencentPipeline': 300,
+    }
+
+
+6、在项目根路径下创建一个启动类文件
+    start.py
+        #coding:utf-8
+        __author__ = 'jack'
+
+        from scrapy.cmdline import execute
+
+        import sys
+        import os
+
+        sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+        execute(["scrapy","crawl","itcast"])
+
+7、运行start.py
