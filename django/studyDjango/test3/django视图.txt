@@ -1,0 +1,9 @@
+Django视图：
+    1.URL配置
+    2.request对象的Get1_recv
+    3.Get的一键多值
+    4.Post请求方式
+    5.Response对象
+    6.session练习
+    7.session原理
+    8.总结_recv

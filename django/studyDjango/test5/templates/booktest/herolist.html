@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<ul>
+    {%for hero in page%}
+    <li>{{hero.hname}}</li>
+    {%endfor%}
+</ul>
+<hr>
+<!--通过page得到paginator对象，通过这个对象的属性page_range获取分页的列表-->
+{%for index in page.paginator.page_range%}
+{% if index == page.number%}
+{{index}}
+{%else%}
+<a href="/booktest/herolist/{{index}}">{{index}}</a>
+{%endif%}
+{%endfor%}
+</body>
+</html>

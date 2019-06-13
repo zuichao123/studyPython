@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/booktest/12345">显示</a><hr>
+
+奇数行显示为红色，偶数行显示为蓝色
+<hr>
+{% comment %}
+{#  http://blog.csdn.net/xyp84/article/details/7945094#}
+{% endcomment %}
+<ul>
+
+{% for hero in list %}
+    <!--从1开始循环，被2整除的显示红色；否则显示蓝色；没有值显示‘啥也没找到’-->
+    {% if forloop.counter|divisibleby:"2" %} <!--forloop.counter 的值是一个整数，表示循环的次数。这个属性的值从 1 开始 -->
+<li style="color:red">{{ forloop.counter }}:{{ hero.showname }}</li>
+    {% else %}
+<li style="color:blue">{{ forloop.counter }}:{{ hero.showname }}</li>
+    {% endif %}
+{% empty %}
+    <li>啥也没找到</li>
+{% endfor %}
+</ul>
+</body>
+</html>

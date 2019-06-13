@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>html转义</title>
+</head>
+<body>
+{{t1|safe}}
+<hr>
+{{t1|escape}}
+<hr>
+{%autoescape off%}
+{{t1}}
+{%endautoescape%}
+<hr>
+字面值：<br>
+{{t2 | default:'<h1>asdf</h1>'}}
+<hr>
+手动转义：
+{{t2 | default:'&lt;h1&gt;abc&lt;/h1&gt; '}}
+</body>
+</html>

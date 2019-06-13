@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>bookIndex</title>
+</head>
+<body>
+<h1 align="center">
+    《all books》
+</h1>
+{% for book in list%}
+<li>{{ book.btitle }}--{{book.bread}}--{{book.bcommet}}</li>
+{%endfor%}
+</body>
+</html>
