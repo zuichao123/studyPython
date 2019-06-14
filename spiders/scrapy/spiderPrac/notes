@@ -48,7 +48,6 @@
         'tencent.pipelines.TencentPipeline': 300,
     }
 
-
 6、在项目根路径下创建一个启动类文件
     start.py
         #coding:utf-8
