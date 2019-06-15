@@ -14,8 +14,7 @@ class YyuanSpider(CrawlSpider):
     ]
 
     # 第一级规则匹配
-    page_links = LinkExtractor(allow=(
-        r'www.uy99.com/search/index.aspx?key=2_20_30_-1_0_-1_-1_-1_-1_-1_0_-1_110000_-1_-1_-1_-1_1_-1_-1_-1_-1_-1_-1_-1&p=\d+'))
+    page_links = LinkExtractor(allow=(r'p=\d+'))
 
     # 第二季规则匹配
     profile_links = LinkExtractor(allow=(r'www.uy99.com/u/\d+/$'))
@@ -27,7 +26,6 @@ class YyuanSpider(CrawlSpider):
 
 
     def parse_item(self, response):
-        print('=' * 30)
         item = YouyuanspiderItem()
         item['username'] = self.get_username(response)
         # 年龄
@@ -53,8 +51,6 @@ class YyuanSpider(CrawlSpider):
 
     def get_username(self, response):
         username = response.xpath("//div[@class='uname_girl']/text()").extract()
-        print('---' * 20)
-        print(username[0])
         if len(username):
             username = username[0]
         else:
