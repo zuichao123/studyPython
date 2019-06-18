@@ -27,25 +27,25 @@ class YyuanSpider(CrawlSpider):
 
     def parse_item(self, response):
         item = YouyuanspiderItem()
-        item['username'] = self.get_username(response)
+        item["username"] = self.get_username(response)
         # 年龄
-        item['age'] = self.get_age(response)
+        item["age"] = self.get_age(response)
         # 头像图片的链接
-        item['header_url'] = self.get_header_url(response)
+        item["header_url"] = self.get_header_url(response)
         # 相册图片的链接
-        item['image_url'] = self.get_image_url(response)
+        # item["image_url"] = self.get_image_url(response)
         # 内心独白
-        item['content'] = self.get_content(response)
+        item["content"] = self.get_content(response)
         # 籍贯
-        item['place_from'] = self.get_place_from(response)
+        item["place_from"] = self.get_place_from(response)
         # 学历
-        item['education'] = self.get_education(response)
+        item["education"] = self.get_education(response)
         # 　兴趣爱好
-        item['hobby'] = self.get_hobby(response)
+        item["hobby"] = self.get_hobby(response)
         # 个人主页
-        item['source_url'] = response.url
+        item["source_url"] = response.url
         # 数据来源网站
-        # item['sourec'] = "youyuan"
+        # item["sourec"] = "youyuan"
 
         yield item
 
