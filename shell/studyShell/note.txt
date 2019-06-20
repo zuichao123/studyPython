@@ -1,0 +1,110 @@
+# 这是一个shell脚本，解析如下：
+"""
+    #! /bin/sh
+    is_directory()
+    {
+      DIR_NAME=$1                           # 接收第一个参数复制给DIR_NAME
+      if [ ! -d $DIR_NAME ]; then           # 如果DIR_NAME不是目录
+        return 1
+      else
+        return 0
+      fi
+    }
+
+    for DIR in "$@"; do # 读取第一个参数给DIR
+      if is_directory "$DIR"                # 将DIR传递给is_directory
+      then : # 如果为真0，啥也不干
+      else
+        echo "$DIR doesn't exist. Creating it now..."
+        mkdir $DIR > /dev/null 2>&1         # 创建目录，如果保错，将标准错误信息输出2重定向到标准信息输出1所指的黑洞（/dev/null）中
+        if [ $? -ne 0 ]; then               # 如果最后一次执行的命令返回结果不等于0（也就是true）
+          echo "Cannot create directory $DIR"
+          exit 1
+        fi
+      fi
+    done
+"""
+# grep
+"""
+    # 查找不包含-v字符d的，不区分大小写-i，显示行号-n
+    sunjian@ubuntu:~/shell$ grep "d" prac2 -v -n -i
+    1:#! /bin/sh
+    3:    {
+    6:        return 1
+    7:      else
+    8:        return 0
+    9:      fi
+    10:    }
+    11:
+    14:      then :
+    15:      else
+    18:        if [ $? -ne 0 ]; then
+    20:          exit 1
+    21:        fi
+    22:      fi
+"""
+"""
+    # 查找包含字符d的，不区分大小写-i，显示行号-n
+    sunjian@ubuntu:~/shell$ grep "d" prac2 -n -i
+    2:s_directory()
+    4:      DIR_NAME=$1
+    5:      if [ ! -d $DIR_NAME ]; then
+    12:    for DIR in "$@"; do
+    13:      if is_directory "$DIR"
+    16:        echo "$DIR doesn't exist. Creating it now..."
+    17:        mkdir $DIR > /dev/null 2>&1
+    19:          echo "Cannot create directory $DIR"
+    23:    done
+"""
+
+# find exec（对于匹配到的内容，每个内容匹配一个进程显示）
+"""
+    # 查找当前路径下的文件，执行ls -l命令
+    sunjian@ubuntu:~/shell$ find . -type f -exec ls -l {} \;
+    -rwxrwxr-x 1 sunjian sunjian 86 ??? 20 14:16 ./prac1
+    -rwxrwxr-x 1 sunjian sunjian 433 ??? 20 14:23 ./prac2
+"""
+# find xargs(对于匹配到的内容起一个进程来显示）
+"""
+    sunjian@ubuntu:/etc/init.d$ find . type f | xargs less {} \;
+    find: `type': No such file or directory
+    find: `f': No such file or directory
+    {}: No such file or directory
+    ;: No such file or directory
+    . is a directory
+    ./irqbalance  (press RETURN)
+"""
+
+# sed
+"""
+    # 行显示匹配的内容
+    sunjian@ubuntu:~/shell$ cat prac3
+    <html><head><title>Hello World</title></head>
+    <body>Welcome to the world of regexp!</body></html>
+
+    sunjian@ubuntu:~/shell$ sed 's/<[^>]*>/ /g' prac3
+    Hello World
+    Welcome to the world of regexp!
+"""
+
+# awk
+"""
+    # 列显示匹配的内容
+    sunjian@ubuntu:~/shell$ awk '{print $1;}' prac4
+    ProductA
+    ProductB
+    ProductC
+    sunjian@ubuntu:~/shell$ awk '{print $2;}' prac4
+    30
+    40
+    50
+    sunjian@ubuntu:~/shell$ cat prac4
+    ProductA 30
+    ProductB 40
+    ProductC 50
+"""
+"""
+    # 查看指定文件中的空格数量
+    awk '/^ *$/ {x=x+1;} END {print x}' test.py
+    5
+"""
