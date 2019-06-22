@@ -219,9 +219,49 @@
         echo -e "user sj$xx password is sj$xx" >> /home/sunjian/Desktop/newuser.txt
     done
 
-# 21、
+# 21、编写shell程序，实现自动删除30个账号的功能。账号名为std01至std30。
+    #!/bin/bash
+    #编写shell程序，实现自动删除30个账号的功能。账号名为std01至stud30
+    #学要有root权限
+
+    for i in {9901..9930}; do
+        xx=`echo $i | sed 's/99//g'`
+            userdel -r std$xx
+    done
+
+# 22、用户清理,清除本机除了当前登陆用户以外的所有用户
+    #!/bin/bash
+
+    a=`echo $0 | sed 's/..\(...\).*/\1/'`
+
+    for i in `w|awk -v b=$a 'NR>2{if($NF !~ b) print $2}'`
+    do
+        echo $i
+        fuser -k /dev/$i
+    done
+
+# 23、设计一个shell程序，在每月第一天备份并压缩/etc目录的所有内容，存放在/root/bak目录里，且文件名,为如下形式yymmdd_etc，yy为年，mm为月，dd为日。Shell程序fileback存放在/usr/bin目录下。
+    #!/bin/bash
+    #需要有root权限
+
+    filename=`date +%y%m%d`_etc.tar.gz
+    #cd /etc/
+    tar -zcvf $filename *
+    mv $filename /root/bak/
 
 
+    # vim /etc/crontab 加入
+    # * * 1 * * root ./23.sh &
+    # 加入定时管理模块
+
+# 24、对于一个用户日志文件，每行记录了一个用户查询串，长度为1-255字节，共几千万行，请排出查询最多的前100条。 日志可以自己构造。 (提示：awk sort uniq head)。
+    #! /bin/bash
+    # show top 10
+
+    file=$1
+    awk '{print $1}' testdata.txt | sort | uniq -c | sort -k1nr | head -n10
+
+# 25、
 
 
 
