@@ -3,7 +3,7 @@ django开发流程：
     2.把应用加入setting.py文件的installed_app项
     3.生产迁移文件
     4.执行迁移生成表
-    5.使用模型类记性create update select delete操作
+    5.使用模型类进行create update select delete操作
     6.在app下创建urls.py文件，定义映射路径
         例如：
             urlpatterns = [
