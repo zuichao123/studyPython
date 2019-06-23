@@ -21,16 +21,16 @@ class YySpider(RedisCrawlSpider):
         self.allowed_domains = filter(None, domain.split(','))
         super(YySpider, self).__init__(*args, **kwargs)
 
-    # 第一级规则匹配
-    page_links = LinkExtractor(allow=(r'www.uy99.com/search/index.aspx?key=2_20_30_-1_0_-1_-1_-1_-1_-1_0_-1_110000_-1_-1_-1_-1_1_-1_-1_-1_-1_-1_-1_-1&p=\d+'))
+        # 第一级规则匹配
+        page_links = LinkExtractor(allow=(r'p=\d+'))
 
-    # 第二季规则匹配
-    profile_links = LinkExtractor(allow=(r'www.uy99.com/u/\d+/$'))
+        # 第二季规则匹配
+        profile_links = LinkExtractor(allow=(r'www.uy99.com/u/\d+/$'))
 
-    rules = (
-        Rule(page_links),
-        Rule(profile_links, callback="parse_item"),
-    )
+        rules = (
+            Rule(page_links),
+            Rule(profile_links, callback="parse_item"),
+        )
 
     def parse_item(self, response):
         print('='*30)

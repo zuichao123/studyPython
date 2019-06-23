@@ -112,8 +112,9 @@ print (re.findall(s,'aaabcaaaaaabedaaabcdaaa'))
 s='hello world,hello boy'
 r=r'^hello'#开头
 r2=r'boy$'#结尾
+print('00000000000000000000000000000000')
 print (re.findall(r2,s))
-
+print('111111111111111111111111111111111')
 r='t[ab$]'#结尾
 print (re.findall(r,'asdfsdtaatb'))
 
