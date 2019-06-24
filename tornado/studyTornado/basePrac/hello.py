@@ -1,6 +1,10 @@
 # coding:utf-8
 """
+    IOLoop.current()
+        返回当前线程的IOLoop实例。
 
+    IOLoop.start()
+            启动IOLoop实例的I/O循环,同时服务器监听被打开。
 """
 import tornado.web
 import tornado.ioloop

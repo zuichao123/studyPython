@@ -9,7 +9,7 @@ import socket
 # ------------udp 套接字
 # s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-# ----------------prac1
+# ----------------prac1.sh
 from socket import *
 # 1、创建套接字
 udpsocket = socket(AF_INET, SOCK_DGRAM)

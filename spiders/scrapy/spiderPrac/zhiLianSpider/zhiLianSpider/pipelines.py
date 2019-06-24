@@ -10,7 +10,7 @@ import os
 
 class ZhilianspiderPipeline(object):
     def __init__(self):
-        self.filename = open(self.currentDesktopPath() + "/" + "zhilian2.json", "w", encoding='utf-8')
+        self.filename = open(self.currentDesktopPath() + "/" + "zhilian.json", "w", encoding='utf-8')
 
     def process_item(self, item, spider):
         content = json.dumps(dict(item), ensure_ascii=False).encode('utf-8')
