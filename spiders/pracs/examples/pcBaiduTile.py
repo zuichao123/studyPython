@@ -1,6 +1,6 @@
 # coding:utf-8
 """
-
+    爬取地图瓦片
 """
 from urllib import request
 import urllib.request
