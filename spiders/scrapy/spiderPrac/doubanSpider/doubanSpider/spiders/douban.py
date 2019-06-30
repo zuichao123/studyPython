@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
 
-from spiders.scrapy.spiderPrac.doubanSpider.doubanSpider.items import DoubanspiderItem
+from spiders.scrapy.spiderPrac.doubanSpider import DoubanspiderItem
 
 
 class DoubanSpider(scrapy.Spider):

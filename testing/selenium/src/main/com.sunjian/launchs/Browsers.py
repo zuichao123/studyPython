@@ -18,7 +18,7 @@ class Browsers(object):
 
     def launch_browsers(self):
         if self.get_broswers() == 'ie':
-            return webdriver.ie()
+            return webdriver.ie
         if self.get_broswers() == 'chrome':
             return webdriver.chrome
         if self.get_broswers() == 'firefox':
@@ -27,6 +27,7 @@ class Browsers(object):
             return webdriver.edge
         if self.get_broswers() == 'safari':
             return webdriver.safari
+
 
 
 if __name__ == "__main__":

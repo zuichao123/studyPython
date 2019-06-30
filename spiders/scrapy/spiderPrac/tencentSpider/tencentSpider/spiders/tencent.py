@@ -4,7 +4,7 @@
 """
 import scrapy
 
-from spiders.scrapy.spiderPrac.tencentSpider.tencentSpider.items import TencentspiderItem
+from spiders.scrapy.spiderPrac.tencentSpider import TencentspiderItem
 
 
 class TencentpositionSpider(scrapy.Spider):

@@ -3,7 +3,7 @@ import os
 
 import scrapy
 
-from spiders.scrapy.spiderPrac.sinaSpider.sinaSpider.items import SinaspiderItem
+from spiders.scrapy.spiderPrac.sinaSpider import SinaspiderItem
 
 
 class SinaSpider(scrapy.Spider):

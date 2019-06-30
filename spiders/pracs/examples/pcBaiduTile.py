@@ -94,5 +94,5 @@ def start(zoom):
 
 
 if __name__ == "__main__":
-    for i in range(10,15):
+    for i in range(1,15):
         start(i)

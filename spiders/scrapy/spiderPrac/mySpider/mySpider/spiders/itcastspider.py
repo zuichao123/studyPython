@@ -5,7 +5,7 @@
 import scrapy
 
 # 创建一个爬虫类
-from spiders.scrapy.spiderPrac.mySpider.mySpider.items import ItcastItem
+from spiders.scrapy.spiderPrac.mySpider.mySpider import ItcastItem
 
 
 class ItcastSpider(scrapy.Spider):
