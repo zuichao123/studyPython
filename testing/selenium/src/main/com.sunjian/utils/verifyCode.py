@@ -1,5 +1,8 @@
 # coding:utf-8
-"""python3 破解 geetest（极验）的滑块验证码"""
+"""python3 破解 geetest（极验）的滑块验证码
+
+    https://www.jianshu.com/p/2c726ff42029
+"""
 from pygame import image
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait

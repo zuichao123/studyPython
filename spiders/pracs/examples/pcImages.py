@@ -28,7 +28,7 @@ def getImg(html):
     x = 0#定义变量给图片命名
     for imgurl in imglist:
         print(imgurl)
-        # urllib.request.urlretrieve(imgurl,'%s.jpg' % x)#py3的urlopen返回的不是string是bytes，需要将html中的html.decode('utf-8')
+        urllib.request.urlretrieve(imgurl,'%s.jpg' % x)#py3的urlopen返回的不是string是bytes，需要将html中的html.decode('utf-8')
         x+=1
 
 
