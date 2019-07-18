@@ -5,7 +5,7 @@
 import time
 
 from LoginPage import LoginPage
-from testing.selenium.src.main.comsunjian.launchs.Browsers import Browsers
+from testing.selenium.src.main.sunjian.launchs.Browsers import Browsers
 
 
 class sj1Test(object):
