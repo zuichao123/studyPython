@@ -1,6 +1,7 @@
 # coding:utf-8
 """
-    使用CSV存储测试数据
+    使用Excel存取测试数据
+    https://www.cnblogs.com/fuqia/p/8989712.html
 """
 import xlrd
 
