@@ -4,7 +4,7 @@
         返回所有的元素
 """
 from selenium import webdriver
-from BasePage import BasePage
+from .BasePage import BasePage
 
 
 class LoginPage(BasePage):

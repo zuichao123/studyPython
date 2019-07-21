@@ -4,13 +4,13 @@
 """
 import time
 
-from LoginPage import LoginPage
-from testing.selenium.src.main.sunjian.launchs.Browsers import Browsers
+from testing.selenium.src.main.comsjian.launchs.Browsers import Browsers
+from testing.selenium.src.main.comsjian.pages.LoginPage import LoginPage
 
 
 class sj1Test(object):
     def start(self):
-        driver = Browsers('firefox').driver
+        driver = Browsers('chrome').driver
         driver.get('http://www.baidu.com/')
         time.sleep(5)
 

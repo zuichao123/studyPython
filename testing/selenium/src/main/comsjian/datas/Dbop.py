@@ -3,6 +3,8 @@
     使用数据库存储
     "localhost", "sunjian", "root", "root"
 """
+import os
+
 import pymysql
 import sqlite3
 
@@ -177,7 +179,7 @@ class DbopSqlite3(object):
             print(e)
 
 if __name__ == "__main__":
-    db = DbopSqlite3("C:/Software/pycharm/workspace/studyPython/testing/selenium/src/test/tools/sd.sqlite","LoginPage")
+    db = DbopSqlite3(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../..")) + "\\test\\tools\\xxx.sqlite","LoginPage")
     val = db.getXpath("phoneNum")
     print("=========="+str(val))
 

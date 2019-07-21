@@ -2,15 +2,17 @@
 """
     basePaeg
 """
+import os
+
 from selenium import webdriver
 
-from Dbop import DbopSqlite3
+from testing.selenium.src.main.comsjian.datas.Dbop import DbopSqlite3
 
 
 class BasePage(object):
     def __init__(self, driver, tableName):
         self.driver = driver
-        self.db = DbopSqlite3('C:/Software/pycharm/workspace/studyPython/testing/selenium/src/test/tools/sd.sqlite', tableName)
+        self.db = DbopSqlite3(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../..")) + "\\test\\tools\\xxx.sqlite", tableName)
 
     def getLoc(self, loc):
         xpath = self.db.getXpath(loc)
