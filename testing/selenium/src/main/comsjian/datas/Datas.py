@@ -76,43 +76,34 @@ class Datas(object):
         style.font = font
         return style
 
-    def write_excel(self, colContents, rowContents):
+    def writeExcelContents(self, datas):
         '''写入Excel内容'''
         workbook = xlwt.Workbook(encoding='utf-8') # 创建工作簿
-        self.write_data_sheet = workbook.add_sheet(self.sheetName)  # 创建sheet
-        # 生成列名
-        for i in range(len(colContents)):
-            self.write_data_sheet.write(0, i, colContents[i], self.set_style('Times New Roman', 220, True))
-        # 生成行内容
-        self.write_rows(rowContents)
+        self.write_data_sheet = workbook.add_sheet(self.sheetName) # 创建sheet
+        # 写入所有行内容
+        for j in range(len(datas)):
+            for i in range(len(datas[j])):
+                self.write_data_sheet.write(j, i, datas[j][i], self.set_style('Times New Roman', 220, True))
         # 保存文件
         workbook.save(self.path)
-
-    def write_rows(self, rowContents):
-        '''写入所有行内容'''
-        for j in range(len(rowContents)):
-            for i in range(len(rowContents[j])):
-                self.write_data_sheet.write(j+1, i, rowContents[j][i], self.set_style('Times New Roman', 220, True))
 
 if __name__ == '__main__':
     path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../..")) + "\\test\\tools\\xxx.xlsx"
     sheetName = 'test2'
-
-    data = Datas(path, sheetName)
-
-    # ------write
-    colContents = ['名称', '时间', '年龄', '性别']
-    rowContents = [
+    datas = [
+        ['名称', '时间', '年龄', '性别'],
         ['测试', '15:50:33-15:52:14', 32, '男'],
         ['测试3', '15:50:33-15:52:15', 33, '男'],
         ['测试2', '15:50:33-15:52:16', 34, '女']
     ]
-    rowContents2 = ['测试2', '15:50:33-15:52:16', 34, '女']
-    data.write_excel(colContents, rowContents)
+
+    data = Datas(path, sheetName)
+    # ------write
+    data.writeExcelContents(datas)
 
     # ------read
-    # data.getValueByRownumColnum(1, 1)
-    # data.getValueByRownumColname(1, '年龄')
+    # data.getValueByRownumColnum(1, 1) # 第2行，第一列
+    # data.getValueByRownumColname(1, '年龄') #第2行
     print(data.getAllValues())
 
 
