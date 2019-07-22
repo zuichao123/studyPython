@@ -1,5 +1,8 @@
 # coding:utf-8
-"""破解博客园的滑块验证码登录"""
+"""
+auther: sunjian
+破解博客园的滑块验证码登录
+"""
 
 from selenium import webdriver
 from selenium.webdriver import ActionChains
@@ -7,8 +10,13 @@ from PIL import Image
 import time
 
 class CrackSlidingBlock(object):
-    def __init__(self):
-        self.driver = webdriver.Firefox()
+    def __init__(self, bType):
+        if bType == 'ie':
+            self.driver = webdriver.Ie()
+        elif bType == 'firefox':
+            self.driver = webdriver.Firefox()
+        elif bType == 'chrome':
+            self.driver = webdriver.Chrome()
 
     def get_snap(self, driver, i):
         """保存截屏图片，返回图片对象"""
@@ -67,16 +75,6 @@ class CrackSlidingBlock(object):
         print('forward_tracks:',forward_tracks, '\nback_tracks:', back_tracks)
         return {"forward_tracks": forward_tracks, 'back_tracks': back_tracks}
 
-    def isLoginTrue(self, driver):
-        '''验证是否登录成功'''
-        username = driver.find_element_by_xpath("//div[@id='header_user']/h1").text
-        if not (username != None):
-            print('sorry, you failed!')
-            return 0
-        else:
-            print('very good '+username+' you are made it!')
-            return 1
-
     def start_crack(self):
         '''开始破解吧'''
         # --------------获取验证码图片
@@ -84,6 +82,7 @@ class CrackSlidingBlock(object):
         # 获取默认有缺口的验证码图片
         none_img = self.get_image(self.driver, i)
         i += 1
+        # ClassName的值为：与背景图片的父标签div平级的下一个canvas标签的类的值
         self.driver.execute_script(
             "var x=document.getElementsByClassName('geetest_canvas_fullbg geetest_fade geetest_absolute')[0];" "x.style.display='block';" "x.style.opacity=1")
         # 获取没有缺口的验证码图片
@@ -127,33 +126,43 @@ class CrackSlidingBlock(object):
         '''关闭浏览器'''
         self.driver.close()
 
+    def isLoginTrue(self, driver):
+        '''验证是否登录成功'''
+        username = driver.find_element_by_xpath("//div[@id='header_user']/h1").text
+        if not (username != None):
+            print('sorry, you failed!')
+            return 0
+        else:
+            print('very good '+username+' you are made it!')
+            return 1
+
     def main(self):
+        '''主方法'''
         try:
-            self.login() # 登录
-            self.start_crack() # 开始破解
-            return self.isLoginTrue(self.driver) # 验证是否登录成功
+            flag = True
+            num = 1
+            while flag:
+                self.login()  # 登录
+                self.start_crack()  # 开始破解
+                val = self.isLoginTrue(self.driver)  # 验证是否登录成功
+                if val == 1:  # 登录成功了
+                    print('---------第' + str(num) + '次成功了')
+                    flag = False
+                    self.close()
+                else:
+                    for i in range(5): # 再尝试5次
+                        if val == 1:
+                            print('---------第' + str(num) + '次成功了')
+                            flag = False
+                            break
+                        self.start_crack()
+                        val = self.isLoginTrue(self.driver)
+                        num += 1
+                    self.close()
         except Exception as e:
             print(e)
 
 
 if __name__ == '__main__':
-    flag = True
-    num = 0
-    while flag:
-        csb = CrackSlidingBlock()
-        val = csb.main()
-        num += 1
-        if val == 1: # 登录成功了
-            print('---------第'+str(num)+'次成功了')
-            flag = False
-            csb.close()
-        else:
-            for i in range(5):
-                if val == 1:
-                    print('---------第'+str(num)+'次成功了')
-                    flag = False
-                    break
-                csb.start_crack()
-                val = csb.isLoginTrue(csb.driver)
-                num += 1
-            csb.close()
+    csb = CrackSlidingBlock('firefox')
+    csb.main()
