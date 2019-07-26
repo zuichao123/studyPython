@@ -1,0 +1,6 @@
+brwserType:
+  browserName : Chrome
+  #browserName : IE
+
+ptahUrl:
+  URL : https://www.baidu.com
