@@ -1,10 +1,8 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-# @Author  : Vant
-# @Email   : 944921374@qq.com
+# @Author  : sunjian
 
 import logging
-import os.path
 import time
 
 class Logger(object):
@@ -16,7 +14,7 @@ class Logger(object):
 
         #创建logger文件
         self.logger = logging.getLogger(logger)
-        self.logger.setLevel(logging.DEBUG)
+        self.logger.setLevel(logging.INFO)
 
         #创建一个handle，用来写入日志文件
         now = time.strftime("%Y-%m-%d_%H_%M_%S_")
@@ -31,7 +29,7 @@ class Logger(object):
         controlhandle.setLevel(logging.INFO)
 
         #将输出的hangdle格式进行转换
-        formatter = logging.Formatter('%(asctime)s  - %(levelname)s - %(message)s')
+        formatter = logging.Formatter('%(asctime)s  - %(levelname)s -->>> %(message)s')
         filehandle.setFormatter(formatter)
         controlhandle.setFormatter(formatter)
 

@@ -6,7 +6,7 @@ import os
 
 from selenium import webdriver
 
-from testing.selenium.src.main.comsjian.datas.Dbop import DbopSqlite3
+from testing.selenium.src.main.com_sunjian.datas.Dbop import DbopSqlite3
 
 
 class BasePage(object):
