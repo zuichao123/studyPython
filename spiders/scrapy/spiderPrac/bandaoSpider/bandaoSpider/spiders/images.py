@@ -29,12 +29,12 @@ class BandaoSpider(scrapy.Spider):
 
     start_urls = [url]
     tp = [
-        # "//div[@id='menu']//dl[3]/dd[1]/a[1]",
-        # "//div[@id='menu']//dl[3]/dd[2]/a[1]",
-        "//div[@id='menu']//dl[3]/dd[3]/a[1]",
-        "//div[@id='menu']//dl[3]/dd[4]/a[1]",
-        "//div[@id='menu']//dl[3]/dd[5]/a[1]",
-        "//div[@id='menu']//dl[3]/dd[6]/a[1]",
+        "//div[@id='menu']//dl[3]/dd[1]/a[1]",
+        "//div[@id='menu']//dl[3]/dd[2]/a[1]",
+        # "//div[@id='menu']//dl[3]/dd[3]/a[1]",
+        # "//div[@id='menu']//dl[3]/dd[4]/a[1]",
+        # "//div[@id='menu']//dl[3]/dd[5]/a[1]",
+        # "//div[@id='menu']//dl[3]/dd[6]/a[1]",
     ]
 
     def parse(self, response):

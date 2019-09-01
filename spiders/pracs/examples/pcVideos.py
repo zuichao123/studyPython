@@ -15,7 +15,7 @@ def get_video(url):
     req = urllib.request.Request(url, headers=ua_headers)
     html = urllib.request.urlopen(req).read()
     print(html)
-    req = r'href="(.*?)"' # r代表原生字符串，不会转义
+    req = r'src="(.*?)"' # r代表原生字符串，不会转义
 
     for i in re.findall(req, str(html)):
         if re.findall("/sv/\d+",i):
@@ -34,4 +34,7 @@ if __name__ == "__main__":
     if not os.path.exists(currentDesktopPath()+"\\video"):
         os.mkdir(currentDesktopPath()+ "\\video")
 
-    get_video('http://www.yy.com/sv/')
+    # get_video('http://www.yy.com/sv/')
+    get_video('https://www.bilibili.com/video/av63220537/?p=3')
+
+    src = "blob:https://www.bilibili.com/9cfee07e-9d8b-4464-b2f6-036f19ac06de"
