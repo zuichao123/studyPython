@@ -16,14 +16,14 @@ sys.path.append('../')
 from testing.selenium.src.main.com_sunjian.utils.HTMLTestRunner3 import HTMLTestRunner
 
 class Run(object):
-    def create_suite(self):
+    def create_suite(self, test_cases):
         TestSuite = unittest.TestSuite()  # 测试集
         test_dir = './case'
-        # print(test_dir)
+        # print(test_dir)a
 
         discover = unittest.defaultTestLoader.discover(
             start_dir=test_dir,
-            pattern='test_*.py',
+            pattern=test_cases,
             top_level_dir=None
         )
 
@@ -33,10 +33,10 @@ class Run(object):
         return TestSuite
 
     def report(self):
-        if len(sys.argv) > 1:
+        if len(sys.argv) > 1: # 如果运行此run.py文件时参数大于1
             report_name = os.path.dirname(os.getcwd()) + '\\report\\' + sys.argv[1] + '_result.html'
             # print(report_name)
-        else:
+        else: # 没有其他参数（只有python run.py  此时len(sys.argv)=1）
             now = time.strftime("%Y-%m-%d_%H_%M_%S_")
             # 需要查看每段时间的测试报告，可以这样写：
             #report_name = os.getcwd() + '\\report\\'+now+'result.html'
@@ -45,7 +45,8 @@ class Run(object):
         return report_name
 
     def main(self):
-        TestSuite = self.create_suite()
+        test_cases = 'test_*.py'
+        TestSuite = self.create_suite(test_cases)
         fp = open(self.report(), 'wb')
         Runner = HTMLTestRunner(
             stream=fp,
