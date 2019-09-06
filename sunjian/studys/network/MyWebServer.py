@@ -98,6 +98,5 @@ def main():
     http_server.bind(8000)
     http_server.start()
 
-
 if __name__ == "__main__":
     main()

@@ -19,7 +19,7 @@ import re
 class Spider():
     '''定义爬虫类'''
     __url = "https://www.huya.com/l"#定义一个私有的变量，存放爬取的URL地址
-    root_pattern = '<li class="game-live-items"([\s\S]*?)</li>'#爬取的内容HTML正则
+    root_pattern = '<li class="game-live-item"([\s\S]*?)</li>'#爬取的内容HTML正则
     name_pattern = '<i class="nick" ([\s\S]*?)</i>'#爬取的具体匹配正则1（主播名字）
     number_pattern = '<i class="js-num">([\s\S]*?)</i>'#爬取的具体匹配正则2（粉丝数量）
 
@@ -29,14 +29,14 @@ class Spider():
         '''定义一个获取内容的私有函数'''
         r = request.urlopen(Spider.__url)#获取URL页面的内容
         htmls = r.read()#读取内容，存放到变量htmls
-        htmls = str(htmls,encoding='utf-8')#将内容转换为字符串，并设置编码格式
-        # print(htmls)
+        htmls = str(htmls, encoding='utf-8').encode("utf-8")#将内容转换为字符串，并设置编码格式
+        #print(htmls)
         return htmls#返回转换后的内容
 
-    def analyze(self,html):
+    def analyze(self, html):
         '''定义一个公有的分析函数'''
         anchors = []#定义一个列表存放字典
-        root_html = re.findall(Spider.root_pattern,html)#获取爬取的正则匹配后的内容
+        root_html = re.findall(Spider.root_pattern,html.decode("utf-8"))#获取爬取的正则匹配后的内容
         for html in root_html:#遍历内容
             names = re.findall(Spider.name_pattern,html)#获取主播名字
             numbers = re.findall(Spider.number_pattern,html)#获取粉丝量
@@ -84,7 +84,9 @@ class Spider():
     def go(self):
         '''定义一个公有的函数：相当于主运行函数'''
         html = self.__fetch_content()
+        # print(html)
         anchors = self.analyze(html)
+        # print(anchors)
         anchors = list(self.__refine(anchors))
         anchors = self.__sort(anchors)
         self.__show(anchors)
