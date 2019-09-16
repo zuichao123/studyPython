@@ -81,42 +81,19 @@ class CrackSlidingBlock(object):
         print('forward_tracks:',forward_tracks, '\nback_tracks:', back_tracks)
         return {"forward_tracks": forward_tracks, 'back_tracks': back_tracks}
 
-    def saveTupian(self, tp):
-        tps = base64.b64decode(tp)
-        print('1234444444444444444444444')
-        with open('snap2.png', 'wb') as fp:
-            fp.write(tps)
-        print('12355555555555555555555')
-        snap_obj = Image.open('snap2.png')
-        return snap_obj
-
     def start_crack(self):
         '''开始破解吧'''
         # --------------获取验证码图片
+        time.sleep(3)
         i = 0
         # 获取默认有缺口的验证码图片
+        self.driver.execute_script("var x=document.getElementsByClassName('geetest_canvas_fullbg geetest_fade geetest_absolute')[0];" "x.style.display='none';" "x.style.opacity=0")
         none_img = self.get_image(self.driver, i)
-        print('-------test--------1')
 
-        a1 = self.driver.find_element_by_xpath("//div[contains(@class,'JDJRV-img-wrap')]/div[1]/img").get_attribute(
-            "src")
-        tp1 = str(a1).split("base64,")[-1]
-        print(tp1)
-
-        i += 1
-        # ClassName的值为：与背景图片的父标签div平级的下一个canvas标签的类的值
-        self.driver.execute_script(
-            "var x=document.getElementsByClassName('JDJRV-suspend-slide')[0];" "x.style.display='block';" "x.style.opacity=1")
         # 获取没有缺口的验证码图片
-        print('-------test--------2')
-
-
-        aa = self.driver.find_element_by_xpath("//div[contains(@class,'JDJRV-img-wrap')]/div[2]/img").get_attribute("src")
-        tp = str(aa).split("base64,")[-1]
-        print(tp)
-
-        block_img = self.saveTupian(tp)
-        # block_img = self.get_image(self.driver, i)
+        i += 1
+        self.driver.execute_script("var x=document.getElementsByClassName('geetest_canvas_fullbg geetest_fade geetest_absolute')[0];" "x.style.display='block';" "x.style.opacity=1")
+        block_img = self.get_image(self.driver, i)
         print('-------test--------3')
         # ---------获取缺口距离
         distance = self.get_distance(block_img, none_img)
